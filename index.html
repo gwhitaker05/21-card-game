@@ -7,30 +7,48 @@
   <style>
     :root{--bg:#0f172a;--panel:#111827;--accent:#f8fafc;--btn:#e63946}
     html,body{height:100%;margin:0;background:linear-gradient(180deg,#1a0000,#4d0000);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:var(--accent)}
-    .app{max-width:960px;margin:32px auto;padding:24px;background:rgba(255,255,255,0.03);border-radius:16px;box-shadow:0 6px 30px rgba(102,0,0,0.8)}
-    h1{margin:0 0 8px;font-size:26px;text-align:center;color:#ffcccc;text-shadow:0 0 8px #ff0000}
-    p.lead{margin:0 0 20px;color:rgba(255,200,200,0.85);text-align:center}
-    .column-wrapper{display:flex;gap:24px;margin-bottom:18px;justify-content:center;flex-wrap:wrap}
-    .column{display:flex;flex-direction:column;gap:14px;align-items:center;background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;box-shadow:0 4px 15px rgba(102,0,0,0.6)}
-    .card{border-radius:12px;padding:6px;display:flex;align-items:center;justify-content:center;background:url('https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;box-shadow:0 4px 12px rgba(0,0,0,0.6),0 0 15px rgba(255,69,0,0.8);transition:transform 0.2s ease,box-shadow 0.2s ease,filter 0.3s ease}
-    .card:hover{transform:scale(1.1);box-shadow:0 8px 25px rgba(255,69,0,1),0 0 30px rgba(255,140,0,0.9);filter:brightness(1.1)}
-    .card img{width:110px;height:auto;border-radius:8px;background:rgba(255,255,255,0.9);padding:4px}
-    .column-controls{margin-top:10px;text-align:center}
-    button.btn{background:var(--btn);border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;color:white;transition:background 0.2s,transform 0.1s}
+    .app{max-width:960px;margin:16px auto;padding:16px;background:rgba(255,255,255,0.03);border-radius:16px;box-shadow:0 6px 30px rgba(102,0,0,0.8)}
+    h1{margin:0 0 6px;font-size:24px;text-align:center;color:#ffcccc;text-shadow:0 0 8px #ff0000}
+    p.lead{margin:0 0 12px;color:rgba(255,200,200,0.85);text-align:center}
+
+    /* 3 columns even on mobile */
+    .column-wrapper{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;justify-items:center;margin-bottom:12px}
+    .column{display:flex;flex-direction:column;gap:8px;align-items:center;background:rgba(255,255,255,0.02);padding:8px;border-radius:12px;box-shadow:0 4px 15px rgba(102,0,0,0.6)}
+
+    /* Card visuals (fire theme) */
+    .card{border-radius:10px;padding:4px;display:flex;align-items:center;justify-content:center;background:url('https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?auto=format&fit=crop&w=600&q=60') center/cover no-repeat;box-shadow:0 4px 12px rgba(0,0,0,0.6),0 0 12px rgba(255,69,0,0.6);transition:transform 0.2s ease,box-shadow 0.2s ease,filter 0.3s ease}
+    .card:hover{transform:scale(1.04);box-shadow:0 8px 18px rgba(255,69,0,0.9),0 0 24px rgba(255,140,0,0.7);filter:brightness(1.08)}
+    .card img{width:clamp(58px,18vw,112px);height:auto;border-radius:8px;background:rgba(255,255,255,0.9);padding:3px}
+
+    .column-controls{margin-top:4px;text-align:center}
+    button.btn{background:var(--btn);border:none;padding:6px 10px;border-radius:10px;font-weight:700;cursor:pointer;color:white;transition:background 0.2s,transform 0.1s;font-size:clamp(12px,3.3vw,14px)}
     button.btn:hover{background:#ff4d4d;transform:translateY(-1px)}
     button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--accent)}
-    .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;justify-content:center}
-    .status{padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:10px}
-    .reveal{margin-top:12px;padding:18px;background:linear-gradient(90deg,#3a0a00,#5c1a00);border-radius:12px;text-align:center}
-    .big img{max-width:160px;border-radius:8px;box-shadow:0 0 20px rgba(255,69,0,0.9),0 0 40px rgba(255,140,0,0.7);background:rgba(255,255,255,0.9);padding:4px}
-    footer{margin-top:18px;color:rgba(255,200,200,0.6);font-size:13px;text-align:center}
-    @media (max-width:700px){.column-wrapper{flex-direction:column;align-items:center}.card img{width:90px}}
+
+    .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;justify-content:center}
+    .status{padding:6px 10px;background:rgba(255,255,255,0.05);border-radius:10px;font-size:clamp(12px,3.2vw,14px)}
+    .reveal{margin-top:10px;padding:12px;background:linear-gradient(90deg,#3a0a00,#5c1a00);border-radius:12px;text-align:center}
+    .big img{max-width:clamp(110px,34vw,180px);border-radius:8px;box-shadow:0 0 20px rgba(255,69,0,0.9),0 0 40px rgba(255,140,0,0.7);background:rgba(255,255,255,0.9);padding:4px}
+    footer{margin-top:12px;color:rgba(255,200,200,0.6);font-size:12px;text-align:center}
+
+    /* Shuffle animations */
+    .disabled{pointer-events:none;opacity:0.6}
+    .shuffle-out .card{animation:shuffleOut 350ms ease both;animation-delay:calc(var(--i)*15ms)}
+    @keyframes shuffleOut{to{transform:translateY(-18px) rotate(var(--rot,2deg));opacity:0;filter:blur(1px)}}
+    .shuffle-in .card{opacity:0;animation:dealIn 480ms cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*22ms)}
+    @keyframes dealIn{from{transform:translateY(20px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+
+    /* Explode reveal animation */
+    .card.explode{animation:boom 800ms cubic-bezier(.3,.7,.2,1) forwards}
+    @keyframes boom{to{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--rot,0)) scale(.8);opacity:0;filter:blur(2px)}}
+    .card.spotlight{position:relative;z-index:3;animation:pop 600ms cubic-bezier(.2,.8,.2,1) both;box-shadow:0 0 24px rgba(255,140,0,.9),0 0 48px rgba(255,69,0,.7)!important}
+    @keyframes pop{from{transform:scale(.9);filter:brightness(1)}to{transform:scale(1.15);filter:brightness(1.1)}}
   </style>
 </head>
 <body>
   <div class="app">
     <h1>🔥 21-Card Magic Trick 🔥</h1>
-    <p class="lead">Think of one card. Look at the fiery grid below and <strong>click the column</strong> containing your card. Repeat 3 times and I’ll reveal it.</p>
+    <p class="lead">Think of one card. Look at the fiery grid below and <strong>tap the column</strong> containing your card. Repeat 3 times and I’ll reveal it.</p>
     <div class="meta">
       <div class="status">Round: <span id="round">0</span> / 3</div>
       <button id="restart" class="ghost btn">Restart / Shuffle</button>
@@ -43,45 +61,239 @@
     </div>
     <footer>3 columns × 7 cards — Works offline in a single HTML file.</footer>
   </div>
+
 <script>
-const suits = ['hearts','diamonds','clubs','spades'];
-const values = ['ace','2','3','4','5','6','7','8','9','10','jack','queen','king'];
-let fullDeck = [];
-for (let suit of suits){
-  for (let value of values){
-    const label = `${value} of ${suit}`;
-    const img = `https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/${value}_of_${suit}.png`;
-    fullDeck.push({label,img});
+(() => {
+  'use strict';
+  // ---- Card assets ---------------------------------------------------------
+  const suits = ['hearts','diamonds','clubs','spades'];
+  const values = ['ace','2','3','4','5','6','7','8','9','10','jack','queen','king'];
+  const fullDeck = (() => {
+    const d = [];
+    for (const suit of suits){
+      for (const value of values){
+        const label = `${value} of ${suit}`;
+        const img = `https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/${value}_of_${suit}.png`;
+        d.push({label,img});
+      }
+    }
+    d.push({label:'Black Joker',img:'https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/black_joker.png'});
+    d.push({label:'Red Joker',  img:'https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/red_joker.png'});
+    return d;
+  })();
+
+  // ---- State & elements ----------------------------------------------------
+  let deck = [];
+  let round = 0;
+  const columnsContainer = document.getElementById('columnsContainer');
+  const roundSpan = document.getElementById('round');
+  const revealArea = document.getElementById('revealArea');
+  const revealCard = document.getElementById('revealCard');
+
+  const restartBtn = document.getElementById('restart');
+  const downloadBtn = document.getElementById('download');
+
+  restartBtn.onclick = start;
+  downloadBtn.onclick = () => {
+    try{
+      const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = '21-card-magic.html'; a.click();
+      URL.revokeObjectURL(url);
+    }catch(e){
+      console.error('Download failed:', e);
+      alert('Download failed: ' + (e && e.message ? e.message : e));
+    }
+  };
+
+  // ---- Helpers -------------------------------------------------------------
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
+  function makeDeck(){ const copy=[...fullDeck]; shuffle(copy); deck = copy.slice(0,21); }
+  function dealIntoColumns(d){ const cols=[[],[],[]]; for(let i=0;i<d.length;i++){ cols[i%3].push(d[i]); } return cols; }
+  function setButtonsEnabled(enabled){
+    const allBtns = columnsContainer.querySelectorAll('button.btn');
+    allBtns.forEach(b=>{ b.disabled = !enabled; });
+    columnsContainer.classList.toggle('disabled', !enabled);
   }
-}
-fullDeck.push({label:'Black Joker',img:'https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/black_joker.png'});
-fullDeck.push({label:'Red Joker',img:'https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/red_joker.png'});
+  function makeFallbackFace(text){
+    const ph = document.createElement('div');
+    ph.style.cssText = 'width:clamp(58px,18vw,112px);height:calc(clamp(58px,18vw,112px)*1.4);display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,.85);color:#111;font-weight:700;padding:4px;box-sizing:border-box;';
+    ph.textContent = text || 'Card';
+    return ph;
+  }
 
-let deck = [];
-let round = 0;
-const columnsContainer = document.getElementById('columnsContainer');
-const roundSpan = document.getElementById('round');
-const revealArea = document.getElementById('revealArea');
-const revealCard = document.getElementById('revealCard');
+  function renderColumns(cols){
+    columnsContainer.innerHTML = '';
+    const wrapper = document.createElement('div');
+    wrapper.className = 'column-wrapper';
+    let globalIndex = 0; // for staggered animations
+    for(let c=0;c<3;c++){
+      const colDiv = document.createElement('div');
+      colDiv.className = 'column';
+      for(let r=0;r<7;r++){
+        const cardData = cols[c][r];
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.col = String(c);
+        card.dataset.row = String(r);
+        card.style.setProperty('--i', globalIndex++);
+        card.style.setProperty('--rot', (Math.random()*6-3).toFixed(2)+'deg');
+        if(cardData){
+          const img = document.createElement('img');
+          img.src = cardData.img; img.alt = cardData.label;
+          img.onerror = () => { img.replaceWith(makeFallbackFace(cardData.label)); };
+          card.appendChild(img);
+        } else {
+          card.appendChild(makeFallbackFace(''));
+        }
+        colDiv.appendChild(card);
+      }
+      const controls = document.createElement('div');
+      controls.className = 'column-controls';
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'My card is in this column';
+      btn.onclick = () => chooseColumn(c);
+      controls.appendChild(btn);
+      colDiv.appendChild(controls);
+      wrapper.appendChild(colDiv);
+    }
+    columnsContainer.appendChild(wrapper);
+  }
 
-document.getElementById('restart').onclick = start;
-document.getElementById('download').onclick = () => {
-  const blob = new Blob([document.documentElement.outerHTML],{type:'text/html'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '21-card-magic.html';
-  a.click();
-  URL.revokeObjectURL(url);
-};
+  // ---- Interaction ---------------------------------------------------------
+  const OUT_BASE=350, OUT_STAGGER=15; // ms
+  const IN_BASE=480,  IN_STAGGER=22;  // ms
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
-function makeDeck(){const copy=[...fullDeck];shuffle(copy);deck=copy.slice(0,21);}
-function dealIntoColumns(d){const cols=[[],[],[]];for(let i=0;i<d.length;i++){cols[i%3].push(d[i]);}return cols;}
-function renderColumns(cols){columnsContainer.innerHTML='';const wrapper=document.createElement('div');wrapper.className='column-wrapper';for(let c=0;c<3;c++){const colDiv=document.createElement('div');colDiv.className='column';for(let r=0;r<7;r++){const cardData=cols[c][r];const card=document.createElement('div');card.className='card';if(cardData){const img=document.createElement('img');img.src=cardData.img;img.alt=cardData.label;card.appendChild(img);}colDiv.appendChild(card);}const controls=document.createElement('div');controls.className='column-controls';const btn=document.createElement('button');btn.className='btn';btn.textContent='My card is in this column';btn.onclick=()=>chooseColumn(c);controls.appendChild(btn);colDiv.appendChild(controls);wrapper.appendChild(colDiv);}columnsContainer.appendChild(wrapper);}
-function chooseColumn(selected){if(round>=3)return;const cols=dealIntoColumns(deck);const order=[(selected+1)%3,selected,(selected+2)%3];const newDeck=[];for(const idx of order){newDeck.push(...cols[idx]);}deck=newDeck;round++;roundSpan.textContent=round;if(round===3){const card=deck[10];revealCard.innerHTML=`<img src="${card.img}" alt="${card.label}">`;revealArea.style.display='block';renderColumns(dealIntoColumns(deck));}else{renderColumns(dealIntoColumns(deck));}}
-function start(){round=0;roundSpan.textContent=round;revealArea.style.display='none';makeDeck();renderColumns(dealIntoColumns(deck));}
-start();
+  function chooseColumn(selected){
+    if(round >= 3) return;
+
+    // Shuffle-out animation
+    setButtonsEnabled(false);
+    columnsContainer.classList.remove('shuffle-in');
+    columnsContainer.classList.add('shuffle-out');
+
+    const outDuration = OUT_BASE + OUT_STAGGER*21 + 50;
+    setTimeout(()=>{
+      // Rebuild deck with selected column in the middle
+      const cols = dealIntoColumns(deck);
+      const order = [ (selected+1)%3, selected, (selected+2)%3 ];
+      const newDeck = [];
+      for(const idx of order){ newDeck.push(...cols[idx]); }
+      deck = newDeck;
+      round++;
+      roundSpan.textContent = String(round);
+
+      // Re-deal and animate in
+      renderColumns(dealIntoColumns(deck));
+      requestAnimationFrame(()=>{
+        columnsContainer.classList.remove('shuffle-out');
+        columnsContainer.classList.add('shuffle-in');
+      });
+
+      const inDuration = IN_BASE + IN_STAGGER*21 + 50;
+      setTimeout(()=>{
+        columnsContainer.classList.remove('shuffle-in');
+        setButtonsEnabled(true);
+        if(round === 3){ finalExplodeReveal(); }
+      }, inDuration);
+    }, outDuration);
+  }
+
+  function finalExplodeReveal(){
+    // Ensure final layout is on screen
+    const finalCols = dealIntoColumns(deck);
+    renderColumns(finalCols);
+
+    const chosenIndex = 10; // 0-based index after 3 rounds
+    const chosenCol = chosenIndex % 3;
+    const chosenRow = Math.floor(chosenIndex / 3);
+    const chosenEl = columnsContainer.querySelector(`[data-col="${chosenCol}"][data-row="${chosenRow}"]`);
+
+    const all = columnsContainer.querySelectorAll('.card');
+    all.forEach(el=>{
+      if(el !== chosenEl){
+        const dx = (Math.random()*2-1)*180;   // left/right
+        const dy = -60 - Math.random()*220;   // upward burst
+        const rot= (Math.random()*60-30);     // spin
+        el.style.setProperty('--dx', dx+'px');
+        el.style.setProperty('--dy', dy+'px');
+        el.style.setProperty('--rot', rot+'deg');
+        el.classList.add('explode');
+      }
+    });
+    if(chosenEl){ chosenEl.classList.add('spotlight'); }
+
+    const chosen = deck[chosenIndex];
+    setTimeout(()=>{
+      revealCard.innerHTML = `<img src="${chosen.img}" alt="${chosen.label}">`;
+      revealArea.style.display = 'block';
+      setTimeout(()=>{ columnsContainer.innerHTML=''; }, 250);
+    }, 900);
+  }
+
+  function start(){
+    round = 0;
+    roundSpan.textContent = '0';
+    revealArea.style.display = 'none';
+    makeDeck();
+    renderColumns(dealIntoColumns(deck));
+  }
+
+  // ---- Lightweight tests (console) ----------------------------------------
+  function simulateEndIndex(pos){
+    // Simulate dealing and always placing selected column in the middle
+    let arr = Array.from({length:21}, (_,i)=>i);
+    let chosen = pos;
+    for(let r=0;r<3;r++){
+      const c0=[],c1=[],c2=[];
+      for(let i=0;i<21;i++){ (i%3===0?c0:i%3===1?c1:c2).push(arr[i]); }
+      const colOfChosen = chosen % 3; // because dealing by i%3
+      const colsMap=[c0,c1,c2];
+      const order = [ (colOfChosen+1)%3, colOfChosen, (colOfChosen+2)%3 ];
+      arr = [...colsMap[order[0]], ...colsMap[order[1]], ...colsMap[order[2]]];
+      chosen = arr.indexOf(pos);
+    }
+    return chosen;
+  }
+
+  function runTests(){
+    try{
+      console.group('%c21-Card Trick Tests','color:#0ff');
+      // Test 1: makeDeck creates 21 unique entries
+      makeDeck();
+      console.assert(deck.length===21,'Deck should have 21 cards');
+      const uniq = new Set(deck.map(c=>c.img));
+      console.assert(uniq.size===21,'Deck should contain 21 unique cards');
+
+      // Test 2: dealIntoColumns produces 3 columns of 7
+      const cols = dealIntoColumns(deck);
+      console.assert(cols.length===3 && cols.every(c=>c.length===7),'3 columns of 7 each');
+
+      // Test 3: after 3 rounds, chosen ends at index 10 (check all start positions)
+      const allResultsOk = Array.from({length:21},(_,i)=>simulateEndIndex(i)).every(x=>x===10);
+      console.assert(allResultsOk,'Every starting position should map to index 10 after 3 rounds');
+
+      // Test 4: renderColumns creates exactly 21 .card elements
+      renderColumns(cols);
+      const count = columnsContainer.querySelectorAll('.card').length;
+      console.assert(count===21,'There should be exactly 21 card elements in the grid');
+
+      // Test 5: chosen index mapping to (col,row)
+      console.assert(10 % 3 === 1 && Math.floor(10/3) === 3, 'Chosen index 10 should map to col=1, row=3');
+
+      console.log('%cAll tests passed','color:#0f0');
+      console.groupEnd();
+    }catch(e){
+      console.error('Tests failed:', e);
+    }
+  }
+
+  // Kickoff
+  start();
+  setTimeout(runTests, 50);
+})();
 </script>
 </body>
 </html>
