@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>21-Card Magic Trick — Shareable</title>
+  <style>
+    :root{--bg:#0f172a;--panel:#111827;--accent:#f8fafc;--btn:#e63946}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#1a0000,#4d0000);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:var(--accent)}
+    .app{max-width:960px;margin:32px auto;padding:24px;background:rgba(255,255,255,0.03);border-radius:16px;box-shadow:0 6px 30px rgba(102,0,0,0.8)}
+    h1{margin:0 0 8px;font-size:26px;text-align:center;color:#ffcccc;text-shadow:0 0 8px #ff0000}
+    p.lead{margin:0 0 20px;color:rgba(255,200,200,0.85);text-align:center}
+    .column-wrapper{display:flex;gap:24px;margin-bottom:18px;justify-content:center;flex-wrap:wrap}
+    .column{display:flex;flex-direction:column;gap:14px;align-items:center;background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;box-shadow:0 4px 15px rgba(102,0,0,0.6)}
+    .card{border-radius:12px;padding:6px;display:flex;align-items:center;justify-content:center;background:url('https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;box-shadow:0 4px 12px rgba(0,0,0,0.6),0 0 15px rgba(255,69,0,0.8);transition:transform 0.2s ease,box-shadow 0.2s ease,filter 0.3s ease}
+    .card:hover{transform:scale(1.1);box-shadow:0 8px 25px rgba(255,69,0,1),0 0 30px rgba(255,140,0,0.9);filter:brightness(1.1)}
+    .card img{width:110px;height:auto;border-radius:8px;background:rgba(255,255,255,0.9);padding:4px}
+    .column-controls{margin-top:10px;text-align:center}
+    button.btn{background:var(--btn);border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;color:white;transition:background 0.2s,transform 0.1s}
+    button.btn:hover{background:#ff4d4d;transform:translateY(-1px)}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--accent)}
+    .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;justify-content:center}
+    .status{padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:10px}
+    .reveal{margin-top:12px;padding:18px;background:linear-gradient(90deg,#3a0a00,#5c1a00);border-radius:12px;text-align:center}
+    .big img{max-width:160px;border-radius:8px;box-shadow:0 0 20px rgba(255,69,0,0.9),0 0 40px rgba(255,140,0,0.7);background:rgba(255,255,255,0.9);padding:4px}
+    footer{margin-top:18px;color:rgba(255,200,200,0.6);font-size:13px;text-align:center}
+    @media (max-width:700px){.column-wrapper{flex-direction:column;align-items:center}.card img{width:90px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>🔥 21-Card Magic Trick 🔥</h1>
+    <p class="lead">Think of one card. Look at the fiery grid below and <strong>click the column</strong> containing your card. Repeat 3 times and I’ll reveal it.</p>
+    <div class="meta">
+      <div class="status">Round: <span id="round">0</span> / 3</div>
+      <button id="restart" class="ghost btn">Restart / Shuffle</button>
+      <button id="download" class="ghost btn">Download HTML</button>
+    </div>
+    <div id="columnsContainer"></div>
+    <div class="reveal" id="revealArea" style="display:none">
+      <div>🎩 I predict your card is:</div>
+      <div class="big" id="revealCard">?</div>
+    </div>
+    <footer>3 columns × 7 cards — Works offline in a single HTML file.</footer>
+  </div>
+<script>
+const suits = ['hearts','diamonds','clubs','spades'];
+const values = ['ace','2','3','4','5','6','7','8','9','10','jack','queen','king'];
+let fullDeck = [];
+for (let suit of suits){
+  for (let value of values){
+    const label = `${value} of ${suit}`;
+    const img = `https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/${value}_of_${suit}.png`;
+    fullDeck.push({label,img});
+  }
+}
+fullDeck.push({label:'Black Joker',img:'https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/black_joker.png'});
+fullDeck.push({label:'Red Joker',img:'https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/red_joker.png'});
+
+let deck = [];
+let round = 0;
+const columnsContainer = document.getElementById('columnsContainer');
+const roundSpan = document.getElementById('round');
+const revealArea = document.getElementById('revealArea');
+const revealCard = document.getElementById('revealCard');
+
+document.getElementById('restart').onclick = start;
+document.getElementById('download').onclick = () => {
+  const blob = new Blob([document.documentElement.outerHTML],{type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '21-card-magic.html';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
+function makeDeck(){const copy=[...fullDeck];shuffle(copy);deck=copy.slice(0,21);}
+function dealIntoColumns(d){const cols=[[],[],[]];for(let i=0;i<d.length;i++){cols[i%3].push(d[i]);}return cols;}
+function renderColumns(cols){columnsContainer.innerHTML='';const wrapper=document.createElement('div');wrapper.className='column-wrapper';for(let c=0;c<3;c++){const colDiv=document.createElement('div');colDiv.className='column';for(let r=0;r<7;r++){const cardData=cols[c][r];const card=document.createElement('div');card.className='card';if(cardData){const img=document.createElement('img');img.src=cardData.img;img.alt=cardData.label;card.appendChild(img);}colDiv.appendChild(card);}const controls=document.createElement('div');controls.className='column-controls';const btn=document.createElement('button');btn.className='btn';btn.textContent='My card is in this column';btn.onclick=()=>chooseColumn(c);controls.appendChild(btn);colDiv.appendChild(controls);wrapper.appendChild(colDiv);}columnsContainer.appendChild(wrapper);}
+function chooseColumn(selected){if(round>=3)return;const cols=dealIntoColumns(deck);const order=[(selected+1)%3,selected,(selected+2)%3];const newDeck=[];for(const idx of order){newDeck.push(...cols[idx]);}deck=newDeck;round++;roundSpan.textContent=round;if(round===3){const card=deck[10];revealCard.innerHTML=`<img src="${card.img}" alt="${card.label}">`;revealArea.style.display='block';renderColumns(dealIntoColumns(deck));}else{renderColumns(dealIntoColumns(deck));}}
+function start(){round=0;roundSpan.textContent=round;revealArea.style.display='none';makeDeck();renderColumns(dealIntoColumns(deck));}
+start();
+</script>
+</body>
+</html>
